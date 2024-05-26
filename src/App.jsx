@@ -39,17 +39,44 @@ function Video(props) {
 
 function List(props) {
     return props.list.map(item => {
+      if (item.views > 1000) {
+        
         switch (item.type) {
             case 'video':
                 return (
-                    <Video {...item} />
+                    <Popular {...item}><Video {...item} /></Popular>
                 );
 
             case 'article':
                 return (
-                    <Article {...item} />
+                    <Popular {...item}><Article {...item} /></Popular>
                 );
         }
+      } else if (item.views < 100) {
+         switch (item.type) {
+           case "video":
+             return (
+               <New {...item}>
+                 <Video {...item} />
+               </New>
+             );
+
+           case "article":
+             return (
+               <New {...item}>
+                 <Article {...item} />
+               </New>
+             );
+         }
+        } else {
+        switch (item.type) {
+          case "video":
+            return <Video {...item} />;
+
+          case "article":
+            return <Article {...item} />;
+        } 
+      }
     });
 };
 
