@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './index.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+function New(props) {
+    return (
+        <div className="wrap-item wrap-item-new">
+            <span className="label">New!</span>
+            {props.children}
+        </div>
+    )
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function Popular(props) {
+    return (
+        <div className="wrap-item wrap-item-popular">
+            <span className="label">Popular!</span>
+            {props.children}
+        </div>
+    )
+};
+
+function Article(props) {
+    return (
+        <div className="item item-article">
+            <h3><a href="#">{props.title}</a></h3>
+            <p className="views">Прочтений: {props.views}</p>
+        </div>
+    )
+};
+
+function Video(props) {
+    return (
+        <div className="item item-video">
+            <iframe src={props.url} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <p className="views">Просмотров: {props.views}</p>
+        </div>
+    )
+};
+
+function List(props) {
+    return props.list.map(item => {
+        switch (item.type) {
+            case 'video':
+                return (
+                    <Video {...item} />
+                );
+
+            case 'article':
+                return (
+                    <Article {...item} />
+                );
+        }
+    });
+};
+
+export default function App() {
+    const [list, setList] = useState([
+        {
+            type: 'video',
+            url: 'https://www.youtube.com/embed/rN6nlNC9WQA?rel=0&amp;controls=0&amp;showinfo=0',
+            views: 50
+        },
+        {
+            type: 'video',
+            url: 'https://www.youtube.com/embed/dVkK36KOcqs?rel=0&amp;controls=0&amp;showinfo=0',
+            views: 12
+        },
+        {
+            type: 'article',
+            title: 'Невероятные события в неизвестном поселке...',
+            views: 175
+        },
+        {
+            type: 'article',
+            title: 'Секретные данные были раскрыты!',
+            views: 1532
+        },
+        {
+            type: 'video',
+            url: 'https://www.youtube.com/embed/TKmGU77INaM?rel=0&amp;controls=0&amp;showinfo=0',
+            views: 4253
+        },
+        {
+            type: 'article',
+            title: 'Кот Бегемот обладает невероятной...',
+            views: 12,
+        },
+    ]);
+
+    return (
+        <List list={list} />
+    );
 }
-
-export default App
